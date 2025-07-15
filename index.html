@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sorteio de Premios - Ao Vivo</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+      animation: fadeInDown 0.8s ease-out;
+    }
+
+    .header h1 {
+      color: white;
+      font-size: 3rem;
+      font-weight: 800;
+      text-shadow: 0 4px 8px rgba(0,0,0,0.3);
+      margin-bottom: 10px;
+    }
+
+    .header p {
+      color: rgba(255,255,255,0.9);
+      font-size: 1.2rem;
+      font-weight: 300;
+    }
+
+    .status-banner {
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 20px;
+      padding: 20px;
+      margin-bottom: 40px;
+      text-align: center;
+      animation: fadeInUp 0.8s ease-out;
+    }
+
+    .status-banner h2 {
+      color: white;
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+    }
+
+    .status-info {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+
+    .status-item {
+      text-align: center;
+    }
+
+    .status-number {
+      display: block;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #ffd700;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .status-label {
+      color: rgba(255,255,255,0.9);
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .prizes-banner {
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 20px;
+      padding: 30px;
+      margin-bottom: 40px;
+      text-align: center;
+      animation: fadeInUp 0.8s ease-out 0.1s both;
+    }
+
+    .prizes-banner h2 {
+      color: white;
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+    }
+
+    .prizes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .prize-item {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 15px;
+      padding: 15px;
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+
+    .prize-item:hover {
+      transform: translateY(-5px);
+    }
+
+    .prize-icon {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+
+    .prize-name {
+      color: white;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    .admin-panel {
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 20px;
+      padding: 30px;
+      margin-bottom: 40px;
+      animation: fadeInUp 0.8s ease-out 0.2s both;
+    }
+
+    .login-form {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .login-form input {
+      padding: 15px 20px;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 25px;
+      background: rgba(255,255,255,0.9);
+      color: #333;
+      min-width: 200px;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+
+    .login-form input:focus {
+      background: white;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+
+    .btn {
+      padding: 15px 30px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .btn-primary {
+      background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+      color: white;
+      box-shadow: 0 4px 15px rgba(238, 90, 36, 0.4);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(238, 90, 36, 0.6);
+    }
+
+    .btn-success {
+      background: linear-gradient(45deg, #00b894, #00a085);
+      color: white;
+      box-shadow: 0 4px 15px rgba(0, 184, 148, 0.4);
+    }
+
+    .btn-success:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0, 184, 148, 0.6);
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none !important;
+    }
+
+    .result-display {
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 20px;
+      padding: 40px;
+      margin-bottom: 40px;
+      text-align: center;
+      min-height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      animation: fadeInUp 0.8s ease-out 0.4s both;
+    }
+
+    .winner-animation {
+      animation: winnerPulse 2s ease-in-out infinite;
+    }
+
+    .winner-name {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #ffd700;
+      text-shadow: 0 4px 8px rgba(0,0,0,0.3);
+      margin-bottom: 15px;
+    }
+
+    .winner-cpf {
+      font-size: 1.3rem;
+      color: rgba(255,255,255,0.9);
+      font-weight: 500;
+      margin-bottom: 15px;
+    }
+
+    .winner-prize {
+      font-size: 1.5rem;
+      color: #ffd700;
+      font-weight: 600;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+      margin-bottom: 10px;
+    }
+
+    .prize-description {
+      font-size: 1.1rem;
+      color: rgba(255,255,255,0.8);
+      font-style: italic;
+    }
+
+    .waiting-message {
+      font-size: 1.5rem;
+      color: rgba(255,255,255,0.7);
+      font-style: italic;
+    }
+
+    .winners-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .winners-column {
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 15px;
+      padding: 25px;
+      animation: fadeInUp 0.6s ease-out;
+    }
+
+    .winners-column h3 {
+      color: #ffd700;
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 1.3rem;
+      font-weight: 600;
+    }
+
+    .winner-item {
+      background: rgba(255,255,255,0.05);
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 10px;
+      border-left: 4px solid #ffd700;
+      transition: transform 0.3s ease;
+    }
+
+    .winner-item:hover {
+      transform: translateX(5px);
+    }
+
+    .winner-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .winner-item-name {
+      color: white;
+      font-weight: 600;
+      font-size: 1.1rem;
+      margin-bottom: 5px;
+    }
+
+    .winner-item-cpf {
+      color: rgba(255,255,255,0.7);
+      font-size: 0.9rem;
+      margin-bottom: 5px;
+    }
+
+    .winner-item-prize {
+      color: #ffd700;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .confetti {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1000;
+    }
+
+    .confetti-piece {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: #ffd700;
+      animation: confettiFall 3s linear infinite;
+    }
+
+    .loading {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      border-top-color: #ffd700;
+      animation: spin 1s ease-in-out infinite;
+      margin-right: 10px;
+    }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes winnerPulse {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.05);
+      }
+    }
+
+    @keyframes confettiFall {
+      0% {
+        transform: translateY(-100vh) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @media (max-width: 768px) {
+      .header h1 {
+        font-size: 2rem;
+      }
+      
+      .status-info {
+        gap: 20px;
+      }
+      
+      .status-number {
+        font-size: 2rem;
+      }
+      
+      .winner-name {
+        font-size: 1.8rem;
+      }
+
+      .prizes-grid {
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 10px;
+      }
+      
+      .winners-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .login-form {
+        flex-direction: column;
+      }
+      
+      .login-form input {
+        min-width: 250px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🏁 Sorteio de Premios</h1>
+      <p>Acompanhe o sorteio ao vivo</p>
+    </div>
+
+    <div class="status-banner">
+      <h2>Status do Sorteio</h2>
+      <div class="status-info">
+        <div class="status-item">
+          <span class="status-number" id="sorteiosRealizados">0</span>
+          <span class="status-label">Sorteados</span>
+        </div>
+        <div class="status-item">
+          <span class="status-number" id="sorteiosRestantes">40</span>
+          <span class="status-label">Restantes</span>
+        </div>
+        <div class="status-item">
+          <span class="status-number" id="totalParticipantes">56</span>
+          <span class="status-label">Participantes</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="prizes-banner">
+        <h2>🎁 Prêmios do Sorteio</h2>
+        <div class="prizes-grid">
+          <div class="prize-item">
+            <div class="prize-icon">🧤</div>
+            <div class="prize-name">Luvas</div>
+          </div>
+          <div class="prize-item">
+            <div class="prize-icon">🏎️</div>
+            <div class="prize-name">Macacão</div>
+          </div>
+          <div class="prize-item">
+            <div class="prize-icon">👟</div>
+            <div class="prize-name">Sapatilha</div>
+          </div>
+          <div class="prize-item">
+            <div class="prize-icon">🍕</div>
+            <div class="prize-name">Voucher Sky Pizza</div>
+          </div>
+          <div class="prize-item">
+            <div class="prize-icon">🐾</div>
+            <div class="prize-name">Voucher Veterinário</div>
+          </div>
+          <div class="prize-item">
+            <div class="prize-icon">✂️</div>
+            <div class="prize-name">Voucher Cabeleireiro</div>
+          </div>
+          <div class="prize-item">
+            <div class="prize-icon">👕</div>
+            <div class="prize-name">Camiseta Aboissa</div>
+          </div>
+          <div class="prize-item">
+            <div class="prize-icon">🥤</div>
+            <div class="prize-name">Voucher Cantina 1020</div>
+          </div>
+          <div class="prize-item">
+            <div class="prize-icon">🍕</div>
+            <div class="prize-name">Voucher Pizzaria Família Presto</div>
+          </div>
+          <div class="prize-item">
+            <div class="prize-icon">🛠️</div>
+            <div class="prize-name">Troca de Óleo + Filtro (SM-Renovadora)</div>
+          </div>
+          <div class="prize-item">
+            <div class="prize-icon">💐</div>
+            <div class="prize-name">Floricultura Jardim dos Amores</div>
+          </div>
+          <div class="prize-item">
+            <div class="prize-icon">🥧</div>
+            <div class="prize-name">Lapadia Empadas / D’Mel</div>
+          </div>
+          <div class="prize-item">
+            <div class="prize-icon">🍫</div>
+            <div class="prize-name">Doce do Conde Gourmet</div>
+          </div>
+        </div>
+      </div>
+      
+    <div class="admin-panel" id="adminPanel">
+      <div class="login-form" id="loginForm">
+        <input type="password" id="adminPassword" placeholder="Senha do administrador" />
+        <button class="btn btn-primary" onclick="verificarSenha()">Entrar</button>
+      </div>
+      
+      <div class="hidden" id="adminControls">
+        <div style="text-align: center;">
+          <button class="btn btn-success" id="sortearBtn" onclick="realizarSorteio()">
+            🎲 Sortear Próximo Piloto
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="result-display" id="resultDisplay">
+      <div class="waiting-message">
+        ⏳ Aguardando próximo sorteio...
+      </div>
+    </div>
+
+    <div class="hidden" id="winnersSection">
+      <div class="status-banner">
+        <h2>🏆 Todos os Ganhadores</h2>
+        <p style="color: rgba(255,255,255,0.9); margin-top: 10px;">
+          Parabéns a todos os sorteados!
+        </p>
+      </div>
+      <div class="winners-grid" id="winnersGrid"></div>
+    </div>
+  </div>
+
+  <div class="confetti hidden" id="confetti"></div>
+
+  <script>
+    // Configurações
+    const CONFIG = {
+      adminPassword: '5572',
+      maxSorteios: 40,
+      confettiCount: 100
+    };
+
+    // Lista de prêmios
+    const premios = [
+  { nome: "Luvas", icone: "🧤", descricao: "Luvas de piloto profissional" },
+  { nome: "Macacão", icone: "🏎️", descricao: "Macacão completo de piloto" },
+  { nome: "Sapatilha", icone: "👟", descricao: "Sapatilha de piloto racing" },
+  { nome: "Voucher Sky Pizza", icone: "🍕", descricao: "Voucher para consumo na Sky Pizza" },
+  { nome: "Voucher Veterinário", icone: "🐾", descricao: "Voucher para serviços veterinários" },
+  { nome: "Voucher Cabeleireiro", icone: "✂️", descricao: "Voucher para serviços de cabeleireiro" },
+  { nome: "Camiseta Aboissa", icone: "👕", descricao: "Camiseta oficial da Aboissa" },
+  { nome: "Voucher Cantina 1020", icone: "🥤", descricao: "Voucher de consumo na Cantina 1020" },
+  { nome: "Voucher Pizzaria Família Presto", icone: "🍕", descricao: "Voucher de consumo na Família Presto" },
+  { nome: "Troca de Óleo + Filtro (SM-Renovadora)", icone: "🛠️", descricao: "Serviço de troca de óleo e filtro oferecido pela SM-Renovadora" },
+  { nome: "Floricultura Jardim dos Amores", icone: "💐", descricao: "Arranjo floral da Floricultura Jardim dos Amores" },
+  { nome: "Lapadia Empadas / D’Mel", icone: "🥧", descricao: "Delícias da Lapadia Empadas ou D’Mel" },
+  { nome: "Doce do Conde Gourmet", icone: "🍫", descricao: "Doces artesanais do Doce do Conde Gourmet" }
+];
+
+    // Estado da aplicação
+    let ganhadores = [];
+    let isAdminLoggedIn = false;
+    let sorteioPausado = false;
+
+    // Lista de participantes (sem IDs)
+    const participantes = [
+      { nome: "Rodrigo Parmezzani", cpf: "448.320.228-65" },
+      { nome: "Pietro Bento de Nadai Guilges", cpf: "434.413.118-50" },
+      { nome: "Gabriel Paes Landim Pereira", cpf: "476.464.448-71" },
+      { nome: "Antonio Augusto Lazaro", cpf: "668.345.208-30" },
+      { nome: "Marcelo Carvalhaes", cpf: "099.715.498-59" },
+      { nome: "Rafael de Souza Mota", cpf: "259.290.088-84" },
+      { nome: "Adimir da rosa", cpf: "031.772.589-02" },
+      { nome: "Miriam Forlani Ricas", cpf: "183.114.438-74" },
+      { nome: "Eleonora Falconi Tempobono", cpf: "163.019.048-93" },
+      { nome: "Kaline Cristina Balduito Bispo", cpf: "278.212.388-21" },
+      { nome: "Marília Gabrielle de Almeida Ucha", cpf: "226.882.338-58" },
+      { nome: "Priscilla Conceição Santana Brandão", cpf: "016.279.575-02" },
+      { nome: "Miranete Santos Carvalho", cpf: "180.528.168-23" },
+      { nome: "Vilma Aparecida Fonseca Domingues", cpf: "164.165.728-69" },
+      { nome: "Monica Martins da Fonseca", cpf: "289.745.368-03" },
+      { nome: "José Renato de Oliveira Gonçalves", cpf: "135.768.168-28" },
+      { nome: "Maria Delmira Mata de Souza", cpf: "024.581.226-12" },
+      { nome: "Murillo de Sousa Santos", cpf: "510.246.048-02" },
+      { nome: "Edgar de Carvalho Navas", cpf: "312.682.358-06" },
+      { nome: "Fabiana Parmezzani", cpf: "287.185.058-56" },
+      { nome: "Luís Maciel do Nascimento", cpf: "063.641.088-90" },
+      { nome: "Priscila Carla Albanit", cpf: "228.881.228-12" },
+      { nome: "Antonio Eduardo Martins Junior", cpf: "366.674.968-29" },
+      { nome: "Erick Fermam de Souza Luz", cpf: "462.349.478-08" },
+      { nome: "Herbert Barbosa Luna", cpf: "361.683.048-60" },
+      { nome: "Felipe de Campo Moda", cpf: "497.242.708-66" },
+      { nome: "Luiz Eduardo R S Covelo", cpf: "294.309.778-06" },
+      { nome: "Rafaela Eccel Farias", cpf: "543.869.558-01" },
+      { nome: "Thomas Oliveira Brilhante", cpf: "416.583.198-00" },
+      { nome: "Guilherme Forlani da Matta", cpf: "426.093.108-38" },
+      { nome: "Denise Kindermann Cavalcanti", cpf: "277.780.078-27" },
+      { nome: "Regys Castanheira Alves", cpf: "222.555.688-10" },
+      { nome: "Andre Alves dos Reis", cpf: "224.680.978-90" },
+      { nome: "Aurelia de Freitas", cpf: "258.476.718-06" },
+      { nome: "Carlos Eduardo Amaral", cpf: "196.778.378-00" },
+      { nome: "Junior Martins", cpf: "366.674.968-29" },
+      { nome: "Matheus Wrobleswski", cpf: "509.565.235-05" },
+      { nome: "Vinicius Fonseca Alves da Silva", cpf: "354.047.238-07" },
+      { nome: "Carlos Eduardo Pimenta Prado", cpf: "472.642.948-54" },
+      { nome: "José Rodrigo Cavalcanti Taveira", cpf: "054.159.174-18" },
+      { nome: "Victor Miguel Luz", cpf: "335.209.948-01" },
+      { nome: "Vinicius Martins Marques", cpf: "405.233.478-71" },
+      { nome: "Laura Falconi Tempobono", cpf: "602.843.618-60" },
+      { nome: "Fernanda Ribeiro Cerqueira", cpf: "416.380.918-03" },
+      { nome: "Lucimara Ido Reimberg", cpf: "214.201.928-50" },
+      { nome: "Paulo Policeno", cpf: "220.605.188-58" },
+      { nome: "Rafaela Fernandes Moreira", cpf: "980.780.206-78" },
+      { nome: "Lara Kraft", cpf: "500.742.768-32" },
+      { nome: "Richard Rangel de Oliveira", cpf: "476.129.798-02" },
+      { nome: "Vitória Fernandes Silva", cpf: "130.218.566-75" },
+      { nome: "Guilherme Freire Lima", cpf: "496.798.228-00" },
+      { nome: "André Tristão de Oliveira", cpf: "351.649.898-67" },
+      { nome: "Murilio José da Silva", cpf: "413.618.698-36" },
+      { nome: "Henrique Stevaux", cpf: "475.662.698-01" },
+      { nome: "Eliel Fernando Santos Coelho", cpf: "363.566.248-84" },
+      { nome: "Mario Sugiura", cpf: "937.533.068-00" },
+      { nome: "Ricardo Noya", cpf: "021.912.010-24" },
+      { nome: "Vitor Maeda Mendes", cpf: "494.272.188-19" }
+    ];
+
+    // Utilitários
+    function mascaraCPF(cpf) {
+      return cpf.slice(0, 3) + '.***.***-**';
+    }
+
+    function atualizarContadores() {
+      document.getElementById('sorteiosRealizados').textContent = ganhadores.length;
+      document.getElementById('sorteiosRestantes').textContent = CONFIG.maxSorteios - ganhadores.length;
+    }
+
+    function criarConfetti() {
+      const confettiContainer = document.getElementById('confetti');
+      confettiContainer.innerHTML = '';
+      confettiContainer.classList.remove('hidden');
+
+      const cores = ['#ffd700', '#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#ffeaa7'];
+
+      for (let i = 0; i < CONFIG.confettiCount; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti-piece';
+        confetti.style.left = Math.random() * 100 + '%';
+        confetti.style.backgroundColor = cores[Math.floor(Math.random() * cores.length)];
+        confetti.style.animationDelay = Math.random() * 3 + 's';
+        confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
+        confettiContainer.appendChild(confetti);
+      }
+
+      setTimeout(() => {
+        confettiContainer.classList.add('hidden');
+      }, 5000);
+    }
+
+    function exibirGanhador(participante, premio) {
+      const resultDisplay = document.getElementById('resultDisplay');
+      resultDisplay.innerHTML = `
+        <div class="winner-animation">
+          <div class="winner-name">${participante.nome}</div>
+          <div class="winner-cpf">CPF: ${mascaraCPF(participante.cpf)}</div>
+          <div class="winner-prize">${premio.icone} ${premio.nome}</div>
+          <div class="prize-description">${premio.descricao}</div>
+        </div>
+      `;
+      
+      criarConfetti();
+    }
+
+    function exibirTodosGanhadores() {
+      const winnersSection = document.getElementById('winnersSection');
+      const winnersGrid = document.getElementById('winnersGrid');
+      
+      winnersGrid.innerHTML = '';
+
+      // Dividir em colunas
+      const colunasPorTipo = Math.ceil(ganhadores.length / 3);
+      const colunas = [[], [], []];
+      
+      ganhadores.forEach((ganhador, index) => {
+        const colunaIndex = Math.floor(index / colunasPorTipo);
+        if (colunaIndex < 3) {
+          colunas[colunaIndex].push(ganhador);
+        } else {
+          colunas[2].push(ganhador);
+        }
+      });
+
+      colunas.forEach((coluna, index) => {
+        if (coluna.length === 0) return;
+        
+        const colunaDiv = document.createElement('div');
+        colunaDiv.className = 'winners-column';
+        colunaDiv.innerHTML = `<h3>Grupo ${index + 1}</h3>`;
+
+        coluna.forEach(ganhador => {
+          const winnerDiv = document.createElement('div');
+          winnerDiv.className = 'winner-item';
+          winnerDiv.innerHTML = `
+            <div class="winner-item-name">${ganhador.participante.nome}</div>
+            <div class="winner-item-cpf">CPF: ${mascaraCPF(ganhador.participante.cpf)}</div>
+            <div class="winner-item-prize">${ganhador.premio.icone} ${ganhador.premio.nome}</div>
+          `;
+          colunaDiv.appendChild(winnerDiv);
+        });
+
+        winnersGrid.appendChild(colunaDiv);
+      });
+
+      winnersSection.classList.remove('hidden');
+    }
+
+    // Funções principais
+    function verificarSenha() {
+      const senha = document.getElementById('adminPassword').value;
+      
+      if (senha === CONFIG.adminPassword) {
+        isAdminLoggedIn = true;
+        document.getElementById('loginForm').classList.add('hidden');
+        document.getElementById('adminControls').classList.remove('hidden');
+        
+        // Limpar campo de senha
+        document.getElementById('adminPassword').value = '';
+      } else {
+        alert('❌ Senha incorreta!');
+        document.getElementById('adminPassword').value = '';
+      }
+    }
+
+    function realizarSorteio() {
+      if (!isAdminLoggedIn) {
+        alert('❌ Acesso negado!');
+        return;
+      }
+
+      if (ganhadores.length >= CONFIG.maxSorteios) {
+        alert('✅ Todos os sorteios já foram realizados!');
+        return;
+      }
+
+      // Desabilitar botão temporariamente
+      const sortearBtn = document.getElementById('sortearBtn');
+      sortearBtn.disabled = true;
+      sortearBtn.innerHTML = '<span class="loading"></span>Sorteando...';
+
+      // Simular delay para suspense
+      setTimeout(() => {
+        // Encontrar participantes ainda não sorteados
+        const participantesDisponiveis = participantes.filter(p => 
+          !ganhadores.some(g => g.participante.cpf === p.cpf)
+        );
+
+        if (participantesDisponiveis.length === 0) {
+          alert('⚠️ Não há mais participantes disponíveis!');
+          return;
+        }
+
+        // Sortear participante
+        const indexParticipante = Math.floor(Math.random() * participantesDisponiveis.length);
+        const participanteSorteado = participantesDisponiveis[indexParticipante];
+
+     // Sortear prêmio
+const indexPremio = Math.floor(Math.random() * premios.length);
+const premioSorteado = premios[indexPremio];
+
+// Adicionar ganhador à lista
+ganhadores.push({ participante: participanteSorteado, premio: premioSorteado });
+
+// Exibir ganhador
+exibirGanhador(participanteSorteado, premioSorteado);
+atualizarContadores();
+
+// Reabilitar botão
+sortearBtn.disabled = false;
+sortearBtn.innerHTML = '🎲 Sortear Próximo Piloto';
+
+// Se todos os sorteios foram realizados, exibir todos os ganhadores
+if (ganhadores.length === CONFIG.maxSorteios) {
+  exibirTodosGanhadores();
+  sortearBtn.disabled = true;
+  sortearBtn.innerHTML = '✅ Sorteio Finalizado';
+}
+}, 2000); // ← Fecha o setTimeout
+
+} // ← Fecha a função realizarSorteio
+
+// Inicialização
+document.addEventListener('DOMContentLoaded', () => {
+  atualizarContadores();
+});
+  </script>
+</body>
+</html>
+

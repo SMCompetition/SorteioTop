@@ -457,7 +457,7 @@
           <span class="status-label">Sorteado</span>
         </div>
         <div class="status-item">
-          <span class="status-number" id="sorteiosRestantes">01</span>
+          <span class="status-number" id="sorteiosRestantes">1</span>
           <span class="status-label">Quantidade de sorteios</span>
         </div>
         <div class="status-item">
@@ -515,7 +515,7 @@
     // Configurações
     const CONFIG = {
       adminPassword: '5572',
-      maxSorteios: 01,
+      maxSorteios: 1,
       confettiCount: 100
     };
 
@@ -596,10 +596,7 @@
     ];
 
     // Utilitários
-    function mascaraCPF(cpf) {
-      return cpf.slice(0, 3) + '.***.***-**';
-    }
-
+    
     function atualizarContadores() {
       document.getElementById('sorteiosRealizados').textContent = ganhadores.length;
       document.getElementById('sorteiosRestantes').textContent = CONFIG.maxSorteios - ganhadores.length;
@@ -668,21 +665,16 @@
         colunaDiv.innerHTML = `<h3>Grupo ${index + 1}</h3>`;
 
         coluna.forEach(ganhador => {
-          const winnerDiv = document.createElement('div');
-          winnerDiv.className = 'winner-item';
-          winnerDiv.innerHTML = `
-            <div class="winner-item-name">${ganhador.participante.nome}</div>
-            <div class="winner-item-cpf">CPF: ${mascaraCPF(ganhador.participante.cpf)}</div>
-            <div class="winner-item-prize">${ganhador.premio.icone} ${ganhador.premio.nome}</div>
-          `;
-          colunaDiv.appendChild(winnerDiv);
-        });
+  const winnerDiv = document.createElement('div');
+  winnerDiv.className = 'winner-item';
+  winnerDiv.innerHTML = `
+    <div class="winner-item-name">${ganhador.participante.nome}</div>
+    <div class="winner-item-prize">${ganhador.premio.icone} ${ganhador.premio.nome}</div>
+  `;
+  colunaDiv.appendChild(winnerDiv);
+});
 
-        winnersGrid.appendChild(colunaDiv);
-      });
-
-      winnersSection.classList.remove('hidden');
-    }
+winnersGrid.appendChild(colunaDiv);
 
     // Funções principais
     function verificarSenha() {

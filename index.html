@@ -239,13 +239,6 @@
       margin-bottom: 15px;
     }
 
-    .winner-cpf {
-      font-size: 1.3rem;
-      color: rgba(255,255,255,0.9);
-      font-weight: 500;
-      margin-bottom: 15px;
-    }
-
     .winner-prize {
       font-size: 1.5rem;
       color: #ffd700;
@@ -266,35 +259,29 @@
       font-style: italic;
     }
 
-    .winners-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 20px;
-      margin-top: 20px;
-    }
-
-    .winners-column {
+    .winners-section {
       background: rgba(255,255,255,0.1);
       backdrop-filter: blur(10px);
       border: 1px solid rgba(255,255,255,0.2);
-      border-radius: 15px;
-      padding: 25px;
-      animation: fadeInUp 0.6s ease-out;
+      border-radius: 20px;
+      padding: 30px;
+      margin-bottom: 40px;
+      text-align: center;
+      animation: fadeInUp 0.8s ease-out;
     }
 
-    .winners-column h3 {
+    .winners-section h2 {
       color: #ffd700;
-      text-align: center;
+      font-size: 1.5rem;
       margin-bottom: 20px;
-      font-size: 1.3rem;
-      font-weight: 600;
     }
 
     .winner-item {
-      background: rgba(255,255,255,0.05);
-      border-radius: 10px;
-      padding: 15px;
-      margin-bottom: 10px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 15px;
+      padding: 20px;
+      margin: 10px 0;
       border-left: 4px solid #ffd700;
       transition: transform 0.3s ease;
     }
@@ -303,27 +290,17 @@
       transform: translateX(5px);
     }
 
-    .winner-item:last-child {
-      margin-bottom: 0;
-    }
-
     .winner-item-name {
       color: white;
       font-weight: 600;
-      font-size: 1.1rem;
-      margin-bottom: 5px;
-    }
-
-    .winner-item-cpf {
-      color: rgba(255,255,255,0.7);
-      font-size: 0.9rem;
-      margin-bottom: 5px;
+      font-size: 1.3rem;
+      margin-bottom: 8px;
     }
 
     .winner-item-prize {
       color: #ffd700;
       font-weight: 600;
-      font-size: 0.9rem;
+      font-size: 1.1rem;
     }
 
     .hidden {
@@ -428,10 +405,6 @@
         gap: 10px;
       }
       
-      .winners-grid {
-        grid-template-columns: 1fr;
-      }
-      
       .login-form {
         flex-direction: column;
       }
@@ -454,11 +427,11 @@
       <div class="status-info">
         <div class="status-item">
           <span class="status-number" id="sorteiosRealizados">0</span>
-          <span class="status-label">Sorteado</span>
+          <span class="status-label">Sorteados</span>
         </div>
         <div class="status-item">
           <span class="status-number" id="sorteiosRestantes">1</span>
-          <span class="status-label">Quantidade de sorteios</span>
+          <span class="status-label">Sorteios Restantes</span>
         </div>
         <div class="status-item">
           <span class="status-number" id="totalParticipantes">56</span>
@@ -468,14 +441,14 @@
     </div>
 
     <div class="prizes-banner">
-  <h2>🎁 Prêmio do Sorteio</h2>
-  <div class="prizes-grid">
-    <div class="prize-item">
-      <img src="macacaoulv.jpg" alt="Macacão ULV" class="prize-image" />
-      <div class="prize-name">Macacão ULV</div>
+      <h2>🎁 Prêmio do Sorteio</h2>
+      <div class="prizes-grid">
+        <div class="prize-item">
+          <div class="prize-icon">🏎️</div>
+          <div class="prize-name">Macacão ULV</div>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
       
     <div class="admin-panel" id="adminPanel">
       <div class="login-form" id="loginForm">
@@ -486,7 +459,7 @@
       <div class="hidden" id="adminControls">
         <div style="text-align: center;">
           <button class="btn btn-success" id="sortearBtn" onclick="realizarSorteio()">
-            🎲 Sortear Próximo Piloto
+            🎲 Sortear Ganhador
           </button>
         </div>
       </div>
@@ -494,18 +467,15 @@
 
     <div class="result-display" id="resultDisplay">
       <div class="waiting-message">
-        ⏳ Aguardando próximo sorteio...
+        ⏳ Aguardando sorteio...
       </div>
     </div>
 
     <div class="hidden" id="winnersSection">
-      <div class="status-banner">
-        <h2>🏆 Ganhador</h2>
-        <p style="color: rgba(255,255,255,0.9); margin-top: 10px;">
-          Parabéns ao sorteado!
-        </p>
+      <div class="winners-section">
+        <h2>🏆 Ganhador do Sorteio</h2>
+        <div id="winnersContainer"></div>
       </div>
-      <div class="winners-grid" id="winnersGrid"></div>
     </div>
   </div>
 
@@ -521,20 +491,18 @@
 
     // Lista de prêmios
     const premios = [
-  {
-    nome: "Macacão ULV",
-    icone: "🏎️",
-    descricao: "Macacão ULV de piloto",
-    imagem: "macacaoulv.jpg"
-  }
-];
+      {
+        nome: "Macacão ULV",
+        icone: "🏎️",
+        descricao: "Macacão ULV de piloto"
+      }
+    ];
 
     // Estado da aplicação
     let ganhadores = [];
     let isAdminLoggedIn = false;
-    let sorteioPausado = false;
 
-    // Lista de participantes (sem IDs)
+    // Lista de participantes
     const participantes = [
       { nome: "Pietro Bento de Nadai Guilges" },
       { nome: "Gabriel Paes Landim Pereira" },
@@ -595,13 +563,13 @@
       { nome: "Vitor Maeda Mendes" }
     ];
 
-    // Utilitários
-    
+    // Função para atualizar contadores
     function atualizarContadores() {
       document.getElementById('sorteiosRealizados').textContent = ganhadores.length;
       document.getElementById('sorteiosRestantes').textContent = CONFIG.maxSorteios - ganhadores.length;
     }
 
+    // Função para criar confetti
     function criarConfetti() {
       const confettiContainer = document.getElementById('confetti');
       confettiContainer.innerHTML = '';
@@ -624,12 +592,12 @@
       }, 5000);
     }
 
+    // Função para exibir ganhador
     function exibirGanhador(participante, premio) {
       const resultDisplay = document.getElementById('resultDisplay');
       resultDisplay.innerHTML = `
         <div class="winner-animation">
           <div class="winner-name">${participante.nome}</div>
-          <div class="winner-cpf">CPF: ${mascaraCPF(participante.cpf)}</div>
           <div class="winner-prize">${premio.icone} ${premio.nome}</div>
           <div class="prize-description">${premio.descricao}</div>
         </div>
@@ -638,61 +606,44 @@
       criarConfetti();
     }
 
+    // Função para exibir todos os ganhadores
     function exibirTodosGanhadores() {
       const winnersSection = document.getElementById('winnersSection');
-      const winnersGrid = document.getElementById('winnersGrid');
+      const winnersContainer = document.getElementById('winnersContainer');
       
-      winnersGrid.innerHTML = '';
+      winnersContainer.innerHTML = '';
 
-      // Dividir em colunas
-      const colunasPorTipo = Math.ceil(ganhadores.length / 3);
-      const colunas = [[], [], []];
-      
-      ganhadores.forEach((ganhador, index) => {
-        const colunaIndex = Math.floor(index / colunasPorTipo);
-        if (colunaIndex < 3) {
-          colunas[colunaIndex].push(ganhador);
-        } else {
-          colunas[2].push(ganhador);
-        }
+      ganhadores.forEach(ganhador => {
+        const winnerDiv = document.createElement('div');
+        winnerDiv.className = 'winner-item';
+        winnerDiv.innerHTML = `
+          <div class="winner-item-name">${ganhador.participante.nome}</div>
+          <div class="winner-item-prize">${ganhador.premio.icone} ${ganhador.premio.nome}</div>
+        `;
+        winnersContainer.appendChild(winnerDiv);
       });
 
-      colunas.forEach((coluna, index) => {
-        if (coluna.length === 0) return;
-        
-        const colunaDiv = document.createElement('div');
-        colunaDiv.className = 'winners-column';
-        colunaDiv.innerHTML = `<h3>Grupo ${index + 1}</h3>`;
+      winnersSection.classList.remove('hidden');
+    }
 
-        coluna.forEach(ganhador => {
-  const winnerDiv = document.createElement('div');
-  winnerDiv.className = 'winner-item';
-  winnerDiv.innerHTML = `
-    <div class="winner-item-name">${ganhador.participante.nome}</div>
-    <div class="winner-item-prize">${ganhador.premio.icone} ${ganhador.premio.nome}</div>
-  `;
-  colunaDiv.appendChild(winnerDiv);
-});
-
-winnersGrid.appendChild(colunaDiv);
-}); // <-- fecha o colunas.forEach
-
-    // Funções principais
+    // Função para verificar senha
     function verificarSenha() {
-  const senha = document.getElementById('adminPassword').value;
+      const senha = document.getElementById('adminPassword').value;
 
-  if (senha === CONFIG.adminPassword) {
-    isAdminLoggedIn = true;
-    document.getElementById('loginForm').classList.add('hidden');
-    document.getElementById('adminControls').classList.remove('hidden');
-    document.getElementById('adminPassword').value = '';
-  } else {
-    alert('❌ Senha incorreta!');
-    document.getElementById('adminPassword').value = '';
-  }
-}
+      if (senha === CONFIG.adminPassword) {
+        isAdminLoggedIn = true;
+        document.getElementById('loginForm').classList.add('hidden');
+        document.getElementById('adminControls').classList.remove('hidden');
+        document.getElementById('adminPassword').value = '';
+        alert('✅ Login realizado com sucesso!');
+      } else {
+        alert('❌ Senha incorreta!');
+        document.getElementById('adminPassword').value = '';
+      }
+    }
 
-      function realizarSorteio() {
+    // Função para realizar sorteio
+    function realizarSorteio() {
       if (!isAdminLoggedIn) {
         alert('❌ Acesso negado!');
         return;
@@ -712,11 +663,13 @@ winnersGrid.appendChild(colunaDiv);
       setTimeout(() => {
         // Encontrar participantes ainda não sorteados
         const participantesDisponiveis = participantes.filter(p => 
-          !ganhadores.some(g => g.participante.cpf === p.cpf)
+          !ganhadores.some(g => g.participante.nome === p.nome)
         );
 
         if (participantesDisponiveis.length === 0) {
           alert('⚠️ Não há mais participantes disponíveis!');
+          sortearBtn.disabled = false;
+          sortearBtn.innerHTML = '🎲 Sortear Ganhador';
           return;
         }
 
@@ -724,36 +677,39 @@ winnersGrid.appendChild(colunaDiv);
         const indexParticipante = Math.floor(Math.random() * participantesDisponiveis.length);
         const participanteSorteado = participantesDisponiveis[indexParticipante];
 
-     // Sortear prêmio
-const indexPremio = Math.floor(Math.random() * premios.length);
-const premioSorteado = premios[indexPremio];
+        // Definir prêmio (só tem um)
+        const premioSorteado = premios[0];
 
-// Adicionar ganhador à lista
-ganhadores.push({ participante: participanteSorteado, premio: premioSorteado });
+        // Adicionar ganhador à lista
+        ganhadores.push({ participante: participanteSorteado, premio: premioSorteado });
 
-// Exibir ganhador
-exibirGanhador(participanteSorteado, premioSorteado);
-atualizarContadores();
+        // Exibir ganhador
+        exibirGanhador(participanteSorteado, premioSorteado);
+        atualizarContadores();
 
-// Reabilitar botão
-sortearBtn.disabled = false;
-sortearBtn.innerHTML = '🎲 Sortear Próximo Piloto';
+        // Reabilitar botão
+        sortearBtn.disabled = false;
+        sortearBtn.innerHTML = '🎲 Sortear Ganhador';
 
-// Se todos os sorteios foram realizados, exibir todos os ganhadores
-if (ganhadores.length === CONFIG.maxSorteios) {
-  exibirTodosGanhadores();
-  sortearBtn.disabled = true;
-  sortearBtn.innerHTML = '✅ Sorteio Finalizado';
-}
-}, 2000); // ← Fecha o setTimeout
+        // Se todos os sorteios foram realizados, exibir todos os ganhadores
+        if (ganhadores.length === CONFIG.maxSorteios) {
+          exibirTodosGanhadores();
+          sortearBtn.disabled = true;
+          sortearBtn.innerHTML = '✅ Sorteio Finalizado';
+        }
+      }, 2000);
+    }
 
-} // ← Fecha a função realizarSorteio
-
-// Inicialização
-document.addEventListener('DOMContentLoaded', () => {
-  atualizarContadores();
-});
+    // Permitir Enter no campo de senha
+    document.addEventListener('DOMContentLoaded', () => {
+      atualizarContadores();
+      
+      document.getElementById('adminPassword').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          verificarSenha();
+        }
+      });
+    });
   </script>
 </body>
 </html>
-

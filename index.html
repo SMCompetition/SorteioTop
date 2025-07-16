@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Sorteio de Premios - Ao Vivo</title>
+  <title>Sorteio do Macacão ULV do desafio SM-Competition - Ao Vivo</title>
   <style>
     * {
       box-sizing: border-box;
@@ -457,7 +457,7 @@
           <span class="status-label">Sorteados</span>
         </div>
         <div class="status-item">
-          <span class="status-number" id="sorteiosRestantes">40</span>
+          <span class="status-number" id="sorteiosRestantes">01</span>
           <span class="status-label">Restantes</span>
         </div>
         <div class="status-item">
@@ -468,62 +468,14 @@
     </div>
 
     <div class="prizes-banner">
-        <h2>🎁 Prêmios do Sorteio</h2>
-        <div class="prizes-grid">
-          <div class="prize-item">
-            <div class="prize-icon">🧤</div>
-            <div class="prize-name">Luvas</div>
-          </div>
-          <div class="prize-item">
-            <div class="prize-icon">🏎️</div>
-            <div class="prize-name">Macacão</div>
-          </div>
-          <div class="prize-item">
-            <div class="prize-icon">👟</div>
-            <div class="prize-name">Sapatilha</div>
-          </div>
-          <div class="prize-item">
-            <div class="prize-icon">🍕</div>
-            <div class="prize-name">Voucher Sky Pizza</div>
-          </div>
-          <div class="prize-item">
-            <div class="prize-icon">🐾</div>
-            <div class="prize-name">Voucher Veterinário</div>
-          </div>
-          <div class="prize-item">
-            <div class="prize-icon">✂️</div>
-            <div class="prize-name">Voucher Cabeleireiro</div>
-          </div>
-          <div class="prize-item">
-            <div class="prize-icon">👕</div>
-            <div class="prize-name">Camiseta Aboissa</div>
-          </div>
-          <div class="prize-item">
-            <div class="prize-icon">🥤</div>
-            <div class="prize-name">Voucher Cantina 1020</div>
-          </div>
-          <div class="prize-item">
-            <div class="prize-icon">🍕</div>
-            <div class="prize-name">Voucher Pizzaria Família Presto</div>
-          </div>
-          <div class="prize-item">
-            <div class="prize-icon">🛠️</div>
-            <div class="prize-name">Troca de Óleo + Filtro (SM-Renovadora)</div>
-          </div>
-          <div class="prize-item">
-            <div class="prize-icon">💐</div>
-            <div class="prize-name">Floricultura Jardim dos Amores</div>
-          </div>
-          <div class="prize-item">
-            <div class="prize-icon">🥧</div>
-            <div class="prize-name">Lapadia Empadas / D’Mel</div>
-          </div>
-          <div class="prize-item">
-            <div class="prize-icon">🍫</div>
-            <div class="prize-name">Doce do Conde Gourmet</div>
-          </div>
-        </div>
-      </div>
+  <h2>🎁 Prêmio do Sorteio</h2>
+  <div class="prizes-grid">
+    <div class="prize-item">
+      <img src="macacaoulv.jpg" alt="Macacão ULV" class="prize-image" />
+      <div class="prize-name">Macacão ULV</div>
+    </div>
+  </div>
+</div>
       
     <div class="admin-panel" id="adminPanel">
       <div class="login-form" id="loginForm">
@@ -569,19 +521,13 @@
 
     // Lista de prêmios
     const premios = [
-  { nome: "Luvas", icone: "🧤", descricao: "Luvas de piloto profissional" },
-  { nome: "Macacão", icone: "🏎️", descricao: "Macacão completo de piloto" },
-  { nome: "Sapatilha", icone: "👟", descricao: "Sapatilha de piloto racing" },
-  { nome: "Voucher Sky Pizza", icone: "🍕", descricao: "Voucher para consumo na Sky Pizza" },
-  { nome: "Voucher Veterinário", icone: "🐾", descricao: "Voucher para serviços veterinários" },
-  { nome: "Voucher Cabeleireiro", icone: "✂️", descricao: "Voucher para serviços de cabeleireiro" },
-  { nome: "Camiseta Aboissa", icone: "👕", descricao: "Camiseta oficial da Aboissa" },
-  { nome: "Voucher Cantina 1020", icone: "🥤", descricao: "Voucher de consumo na Cantina 1020" },
-  { nome: "Voucher Pizzaria Família Presto", icone: "🍕", descricao: "Voucher de consumo na Família Presto" },
-  { nome: "Troca de Óleo + Filtro (SM-Renovadora)", icone: "🛠️", descricao: "Serviço de troca de óleo e filtro oferecido pela SM-Renovadora" },
-  { nome: "Floricultura Jardim dos Amores", icone: "💐", descricao: "Arranjo floral da Floricultura Jardim dos Amores" },
-  { nome: "Lapadia Empadas / D’Mel", icone: "🥧", descricao: "Delícias da Lapadia Empadas ou D’Mel" },
-  { nome: "Doce do Conde Gourmet", icone: "🍫", descricao: "Doces artesanais do Doce do Conde Gourmet" }
+  const premios = [
+  {
+    nome: "Macacão ULV",
+    icone: "🏎️",
+    descricao: "Macacão completo de piloto",
+    imagem: "macacaoulv.jpg"
+  }
 ];
 
     // Estado da aplicação
@@ -591,64 +537,63 @@
 
     // Lista de participantes (sem IDs)
     const participantes = [
-      { nome: "Rodrigo Parmezzani", cpf: "448.320.228-65" },
-      { nome: "Pietro Bento de Nadai Guilges", cpf: "434.413.118-50" },
-      { nome: "Gabriel Paes Landim Pereira", cpf: "476.464.448-71" },
-      { nome: "Antonio Augusto Lazaro", cpf: "668.345.208-30" },
-      { nome: "Marcelo Carvalhaes", cpf: "099.715.498-59" },
-      { nome: "Rafael de Souza Mota", cpf: "259.290.088-84" },
-      { nome: "Adimir da rosa", cpf: "031.772.589-02" },
-      { nome: "Miriam Forlani Ricas", cpf: "183.114.438-74" },
-      { nome: "Eleonora Falconi Tempobono", cpf: "163.019.048-93" },
-      { nome: "Kaline Cristina Balduito Bispo", cpf: "278.212.388-21" },
-      { nome: "Marília Gabrielle de Almeida Ucha", cpf: "226.882.338-58" },
-      { nome: "Priscilla Conceição Santana Brandão", cpf: "016.279.575-02" },
-      { nome: "Miranete Santos Carvalho", cpf: "180.528.168-23" },
-      { nome: "Vilma Aparecida Fonseca Domingues", cpf: "164.165.728-69" },
-      { nome: "Monica Martins da Fonseca", cpf: "289.745.368-03" },
-      { nome: "José Renato de Oliveira Gonçalves", cpf: "135.768.168-28" },
-      { nome: "Maria Delmira Mata de Souza", cpf: "024.581.226-12" },
-      { nome: "Murillo de Sousa Santos", cpf: "510.246.048-02" },
-      { nome: "Edgar de Carvalho Navas", cpf: "312.682.358-06" },
-      { nome: "Fabiana Parmezzani", cpf: "287.185.058-56" },
-      { nome: "Luís Maciel do Nascimento", cpf: "063.641.088-90" },
-      { nome: "Priscila Carla Albanit", cpf: "228.881.228-12" },
-      { nome: "Antonio Eduardo Martins Junior", cpf: "366.674.968-29" },
-      { nome: "Erick Fermam de Souza Luz", cpf: "462.349.478-08" },
-      { nome: "Herbert Barbosa Luna", cpf: "361.683.048-60" },
-      { nome: "Felipe de Campo Moda", cpf: "497.242.708-66" },
-      { nome: "Luiz Eduardo R S Covelo", cpf: "294.309.778-06" },
-      { nome: "Rafaela Eccel Farias", cpf: "543.869.558-01" },
-      { nome: "Thomas Oliveira Brilhante", cpf: "416.583.198-00" },
-      { nome: "Guilherme Forlani da Matta", cpf: "426.093.108-38" },
-      { nome: "Denise Kindermann Cavalcanti", cpf: "277.780.078-27" },
-      { nome: "Regys Castanheira Alves", cpf: "222.555.688-10" },
-      { nome: "Andre Alves dos Reis", cpf: "224.680.978-90" },
-      { nome: "Aurelia de Freitas", cpf: "258.476.718-06" },
-      { nome: "Carlos Eduardo Amaral", cpf: "196.778.378-00" },
-      { nome: "Junior Martins", cpf: "366.674.968-29" },
-      { nome: "Matheus Wrobleswski", cpf: "509.565.235-05" },
-      { nome: "Vinicius Fonseca Alves da Silva", cpf: "354.047.238-07" },
-      { nome: "Carlos Eduardo Pimenta Prado", cpf: "472.642.948-54" },
-      { nome: "José Rodrigo Cavalcanti Taveira", cpf: "054.159.174-18" },
-      { nome: "Victor Miguel Luz", cpf: "335.209.948-01" },
-      { nome: "Vinicius Martins Marques", cpf: "405.233.478-71" },
-      { nome: "Laura Falconi Tempobono", cpf: "602.843.618-60" },
-      { nome: "Fernanda Ribeiro Cerqueira", cpf: "416.380.918-03" },
-      { nome: "Lucimara Ido Reimberg", cpf: "214.201.928-50" },
-      { nome: "Paulo Policeno", cpf: "220.605.188-58" },
-      { nome: "Rafaela Fernandes Moreira", cpf: "980.780.206-78" },
-      { nome: "Lara Kraft", cpf: "500.742.768-32" },
-      { nome: "Richard Rangel de Oliveira", cpf: "476.129.798-02" },
-      { nome: "Vitória Fernandes Silva", cpf: "130.218.566-75" },
-      { nome: "Guilherme Freire Lima", cpf: "496.798.228-00" },
-      { nome: "André Tristão de Oliveira", cpf: "351.649.898-67" },
-      { nome: "Murilio José da Silva", cpf: "413.618.698-36" },
-      { nome: "Henrique Stevaux", cpf: "475.662.698-01" },
-      { nome: "Eliel Fernando Santos Coelho", cpf: "363.566.248-84" },
-      { nome: "Mario Sugiura", cpf: "937.533.068-00" },
-      { nome: "Ricardo Noya", cpf: "021.912.010-24" },
-      { nome: "Vitor Maeda Mendes", cpf: "494.272.188-19" }
+      { nome: "Pietro Bento de Nadai Guilges" },
+      { nome: "Gabriel Paes Landim Pereira" },
+      { nome: "Antonio Augusto Lazaro" },
+      { nome: "Marcelo Carvalhaes" },
+      { nome: "Rafael de Souza Mota" },
+      { nome: "Adimir da rosa" },
+      { nome: "Miriam Forlani Ricas" },
+      { nome: "Eleonora Falconi Tempobono" },
+      { nome: "Kaline Cristina Balduito Bispo" },
+      { nome: "Marília Gabrielle de Almeida Ucha" },
+      { nome: "Priscilla Conceição Santana Brandão" },
+      { nome: "Miranete Santos Carvalho" },
+      { nome: "Vilma Aparecida Fonseca Domingues" },
+      { nome: "Monica Martins da Fonseca" },
+      { nome: "José Renato de Oliveira Gonçalves" },
+      { nome: "Maria Delmira Mata de Souza" },
+      { nome: "Murillo de Sousa Santos" },
+      { nome: "Edgar de Carvalho Navas" },
+      { nome: "Fabiana Parmezzani" },
+      { nome: "Luís Maciel do Nascimento" },
+      { nome: "Priscila Carla Albanit" },
+      { nome: "Antonio Eduardo Martins Junior" },
+      { nome: "Erick Fermam de Souza Luz" },
+      { nome: "Herbert Barbosa Luna" },
+      { nome: "Felipe de Campo Moda" },
+      { nome: "Luiz Eduardo R S Covelo" },
+      { nome: "Rafaela Eccel Farias" },
+      { nome: "Thomas Oliveira Brilhante" },
+      { nome: "Guilherme Forlani da Matta" },
+      { nome: "Denise Kindermann Cavalcanti" },
+      { nome: "Regys Castanheira Alves" },
+      { nome: "Andre Alves dos Reis" },
+      { nome: "Aurelia de Freitas" },
+      { nome: "Carlos Eduardo Amaral" },
+      { nome: "Junior Martins" },
+      { nome: "Matheus Wrobleswski" },
+      { nome: "Vinicius Fonseca Alves da Silva" },
+      { nome: "Carlos Eduardo Pimenta Prado" },
+      { nome: "José Rodrigo Cavalcanti Taveira" },
+      { nome: "Victor Miguel Luz" },
+      { nome: "Vinicius Martins Marques" },
+      { nome: "Laura Falconi Tempobono" },
+      { nome: "Fernanda Ribeiro Cerqueira" },
+      { nome: "Lucimara Ido Reimberg" },
+      { nome: "Paulo Policeno" },
+      { nome: "Rafaela Fernandes Moreira" },
+      { nome: "Lara Kraft" },
+      { nome: "Richard Rangel de Oliveira" },
+      { nome: "Vitória Fernandes Silva" },
+      { nome: "Guilherme Freire Lima" },
+      { nome: "André Tristão de Oliveira" },
+      { nome: "Murilio José da Silva" },
+      { nome: "Henrique Stevaux" },
+      { nome: "Eliel Fernando Santos Coelho" },
+      { nome: "Mario Sugiura" },
+      { nome: "Ricardo Noya" },
+      { nome: "Vitor Maeda Mendes" }
     ];
 
     // Utilitários

@@ -675,25 +675,24 @@
 });
 
 winnersGrid.appendChild(colunaDiv);
+}); // <-- fecha o colunas.forEach
 
     // Funções principais
     function verificarSenha() {
-      const senha = document.getElementById('adminPassword').value;
-      
-      if (senha === CONFIG.adminPassword) {
-        isAdminLoggedIn = true;
-        document.getElementById('loginForm').classList.add('hidden');
-        document.getElementById('adminControls').classList.remove('hidden');
-        
-        // Limpar campo de senha
-        document.getElementById('adminPassword').value = '';
-      } else {
-        alert('❌ Senha incorreta!');
-        document.getElementById('adminPassword').value = '';
-      }
-    }
+  const senha = document.getElementById('adminPassword').value;
 
-    function realizarSorteio() {
+  if (senha === CONFIG.adminPassword) {
+    isAdminLoggedIn = true;
+    document.getElementById('loginForm').classList.add('hidden');
+    document.getElementById('adminControls').classList.remove('hidden');
+    document.getElementById('adminPassword').value = '';
+  } else {
+    alert('❌ Senha incorreta!');
+    document.getElementById('adminPassword').value = '';
+  }
+}
+
+      function realizarSorteio() {
       if (!isAdminLoggedIn) {
         alert('❌ Acesso negado!');
         return;
